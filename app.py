@@ -5,7 +5,6 @@ from streamlit_extras.colored_header import colored_header
 from streamlit_echarts import st_echarts
 import joblib
 from sklearn.preprocessing import MinMaxScaler
-import xgboost as xgb
 from sklearn.ensemble import RandomForestRegressor
 
 st.set_page_config(

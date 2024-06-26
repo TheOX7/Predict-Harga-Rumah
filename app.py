@@ -6,6 +6,7 @@ from streamlit_echarts import st_echarts
 import joblib
 from sklearn.preprocessing import MinMaxScaler
 import xgboost as xgb
+from sklearn.ensemble import RandomForestRegressor
 
 st.set_page_config(
     page_title='Predict Harga Rumah',
@@ -151,12 +152,12 @@ if selected_option_menu == "Prediksi Harga":
                 
             return prediction_str
         
-        # Load linear regression model 
-        model = joblib.load('xgb_model.joblib')
+        # Load random forest model 
+        model = joblib.load('rf_model.joblib')
         prediction_scaled = model.predict(input_df)[0]
         
         harga_prediction = predict_harga(prediction_scaled)
-        st.success(f"Prediksi Harga Rumah (XGBoost) = {harga_prediction}")
+        st.success(f"Prediksi Harga Rumah (Random Forest) = {harga_prediction}")
             
     
 if selected_option_menu == "Rata-Rata Harga Rumah":

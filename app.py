@@ -5,6 +5,7 @@ from streamlit_extras.colored_header import colored_header
 from streamlit_echarts import st_echarts
 import joblib
 from sklearn.preprocessing import MinMaxScaler
+import xgboost as xgb
 
 st.set_page_config(
     page_title='Predict Harga Rumah',
@@ -66,7 +67,6 @@ if selected_option_menu == "Prediksi Harga":
         'Jakarta Barat': 0, 'Jakarta Pusat': 1, 'Jakarta Selatan': 2,
         'Jakarta Timur': 3, 'Jakarta Utara': 4
     }
-
 
     # Input Features
     carport_col, kmr_tidur_col, kmr_mandi_col = st.columns(3)
@@ -133,7 +133,7 @@ if selected_option_menu == "Prediksi Harga":
 
     scaler.fit(df[scaled_cols])
     input_df[scaled_cols] = scaler.transform(input_df[scaled_cols])
-    
+
     if st.button("Predict"):        
         def predict_harga(prediction_scaled):
             min_harga = df['harga'].min()

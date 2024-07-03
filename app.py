@@ -41,7 +41,7 @@ with st.sidebar:
         <div style='text-align: center; font-size:20px'>
             <b>Related Links</b> <br>
             <a href="https://www.rumah123.com" style="text-decoration: none;">Data Source</a> <br>
-            <a href="https://github.com/TheOX7/KPK-2" style="text-decoration: none;">Github Repository</a>
+            <a href="https://github.com/TheOX7/Predict-Harga-Rumah" style="text-decoration: none;">Github Repository</a>
         </div>
     """, unsafe_allow_html=True)
     
@@ -61,12 +61,7 @@ if selected_option_menu == "Prediksi Harga":
     # Load dataset
     df = pd.read_csv('data/cleaned_data.csv')
 
-    # Dictionary 'kecamatan' & 'kab/kota'
-    kecamatan_mapping = {value: i for i, value in enumerate(df['kecamatan'].sort_values().unique())}
-    kab_kota_mapping = {
-        'Jakarta Barat': 0, 'Jakarta Pusat': 1, 'Jakarta Selatan': 2,
-        'Jakarta Timur': 3, 'Jakarta Utara': 4
-    }
+
 
     # Input Features
     carport_col, kmr_tidur_col, kmr_mandi_col = st.columns(3)
@@ -94,11 +89,17 @@ if selected_option_menu == "Prediksi Harga":
         taman = 1 if taman == "Ada" else 0
     with kab_kota_col:
         kab_kota_input = st.selectbox("Kab./Kota", df['kab/kota'].sort_values().unique().tolist())
-        kab_kota = kab_kota_mapping.get(kab_kota_input, 0)  # Apply mapping 'kab_kota_mapping'
+        kab_kota_mapping = {
+            'Jakarta Barat': 0, 'Jakarta Pusat': 1, 'Jakarta Selatan': 2,
+            'Jakarta Timur': 3, 'Jakarta Utara': 4
+        }
+        kab_kota = kab_kota_mapping.get(kab_kota_input)
+        
     with kecamatan_col:
         df_filtered = df[df['kab/kota'] == kab_kota_input]  # Filter based on selected kab/kota
         kecamatan_input = st.selectbox("Kecamatan", df_filtered['kecamatan'].sort_values().unique().tolist())
-        kecamatan = kecamatan_mapping.get(kecamatan_input, 0)  # Apply mapping 'kecamatan_mapping'
+        kecamatan_mapping = {value: i for i, value in enumerate(df['kecamatan'].sort_values().unique())}
+        kecamatan = kecamatan_mapping.get(kecamatan_input)  # Apply mapping 'kecamatan_mapping'
 
     jarak_rs_col, jarak_sekolah_col, jarak_tol_col = st.columns(3)
     with jarak_rs_col:
